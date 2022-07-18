@@ -37,7 +37,7 @@ class Order(models.Model):
       
 
     def __str__(self):
-        return self.id
+        return self.user_email
 
 
 class OrderProduct(models.Model):

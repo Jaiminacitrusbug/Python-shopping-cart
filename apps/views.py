@@ -1,6 +1,7 @@
+import email
 from django.shortcuts import render
 from django.views import View
-from .models import User
+from .models import User, Order
 from django.contrib.auth import authenticate
 
 # Create your views here.
@@ -13,6 +14,7 @@ from django.contrib.auth import authenticate
 
 
 class LoginView(View):
+    template_name='apps/home.html'
     def get(self, request):
         users = User.objects.all()
         for user in users:
@@ -22,7 +24,22 @@ class LoginView(View):
     def post(self, request):
         user = authenticate(email=request.POST.get("email"), password=request.POST.get("password"))
         if user:
-            print("login")
+            user = User.objects.get(email=request.POST.get("email"))
+            # order=[]
+            print(user.role)
+            if user.role=='admin':
+                order=  Order.objects.all()
+            else:
+                order=  Order.objects.filter(user_email=request.POST.get("email"))               
+            print("order............",order)
+            context=order
+            return render(request, self.template_name,{"order":context})
         else:
             print("error")
-        return render(request, 'apps/login.html')
+
+# class HomeView(View):
+#     def get(self, request):      
+#         return render(request, 'apps/home.html')
+
+   
+        
