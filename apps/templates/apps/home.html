@@ -8,11 +8,17 @@
   </head>
   <body class="container">
     <h1>orders</h1>
+
+     <form  method="post">
+        {% csrf_token %}
+        {{ forms.as_p }}
+        <input type="submit" value="Submit">
+    </form>
     <table class="table">
       <thead>
         <tr>
           <th scope="col">email</th>
-          <!-- <th scope="col">product</th> -->
+          <th scope="col">product</th>
           <th scope="col">created date</th>
           <th scope="col">price</th>
          
@@ -22,9 +28,11 @@
         {% for item in order %}
         <tr>
           <th scope="row">{{ item.user_email }}</th>  
+          <th scope="row">
           {% for productitem in item.product.all %} 
-            <th scope="row">{{ productitem.name }}</th>         
-          {% endfor %}     
+            {{ productitem.name  }}  ,       
+          {% endfor %}  
+          </th>   
           <th scope="row">{{ item.created_date }}</th>       
           <th scope="row">{{ item.price }}</th>       
         </tr>  
