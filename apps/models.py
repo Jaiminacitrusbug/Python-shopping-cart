@@ -24,6 +24,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def getPrice(self,qty):
+        price = Product.objects.get(id=id).price
+        print("price-------------------------",price)
+        return price*qty
     
 class Order(models.Model):
     """
